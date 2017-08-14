@@ -39,7 +39,7 @@ public:
     {
         this->ds_insert_(first, last);
         auto it = std::unique(
-            self()->container.begin(), self()->container.end(), 
+            self()->container.begin(), self()->container.end(),
             impl::eq_comp<value_compare>{value_comp()});
         self()->container.erase(it, self()->container.end());
     }
@@ -67,7 +67,7 @@ private:
         iterator it = self()->lower_bound(value);
         if(it == self()->end() || self()->value_comp()(value, *it))
         {
-            it = self()->container.insert(it.underlying, 
+            it = self()->container.insert(it.underlying,
                                           std::forward<V>(value));
             return std::make_pair(it, true);
         }
@@ -77,7 +77,7 @@ private:
 
 template<typename D, typename Key, typename Container, typename Compare>
 class flat_set_base<D, Key, Container, Compare,
-                    std::void_t<typename Compare::is_transparent>>
+                    std::__void_t<typename Compare::is_transparent>>
 : public flat_set_base<D, Key, Container, Compare, int>
 {
 #include "impl/container_traits.hpp"
@@ -89,7 +89,7 @@ public:
 
     // Lookup
 
-    template<typename K> 
+    template<typename K>
     size_type count(K const& key) const
     {
         return self()->find(key) != self()->end();
@@ -99,8 +99,8 @@ public:
 } // namespace impl
 
 template<typename Container, typename Compare = std::less<void>>
-class flat_set 
-: public impl::flat_set_base<flat_set<Container, Compare>, 
+class flat_set
+: public impl::flat_set_base<flat_set<Container, Compare>,
     typename Container::value_type, Container, Compare>
 {
 #define FLATNAME flat_set

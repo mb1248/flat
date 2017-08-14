@@ -64,7 +64,7 @@ public:
 
 template<typename D, typename Key, typename Container, typename Compare>
 class flat_multiset_base<D, Key, Container, Compare,
-                    std::void_t<typename Compare::is_transparent>>
+                    std::__void_t<typename Compare::is_transparent>>
 : public flat_multiset_base<D, Key, Container, Compare, int>
 {
 #include "impl/container_traits.hpp"
@@ -76,7 +76,7 @@ public:
 
     // Lookup
 
-    template<typename K> 
+    template<typename K>
     size_type count(K const& key) const
     {
         auto it_pair = self()->equal_range(key);
@@ -87,8 +87,8 @@ public:
 } // namespace impl
 
 template<typename Container, typename Compare = std::less<void>>
-class flat_multiset 
-: public impl::flat_multiset_base<flat_multiset<Container, Compare>, 
+class flat_multiset
+: public impl::flat_multiset_base<flat_multiset<Container, Compare>,
     typename Container::value_type, Container, Compare>
 {
 #define FLATNAME flat_multiset

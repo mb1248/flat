@@ -66,7 +66,7 @@ public:
 
 template<typename D, typename Key, typename Container, typename Compare>
 class flat_multimap_base<D, Key, Container, Compare,
-                    std::void_t<typename Compare::is_transparent>>
+                    std::__void_t<typename Compare::is_transparent>>
 : public flat_multimap_base<D, Key, Container, Compare, int>
 {
 #include "impl/container_traits.hpp"
@@ -80,18 +80,18 @@ public:
     using B::count;
 
     // Modifiers
-    
+
     template<class P>
     iterator insert(P&& value)
     {
         iterator it = self()->upper_bound(value.first);
-        return self()->container.insert(it.underlying, 
+        return self()->container.insert(it.underlying,
                                         std::forward<P>(value));
     }
 
     // Lookup
 
-    template<typename K> 
+    template<typename K>
     size_type count(K const& key) const
     {
         auto it_pair = self()->equal_range(key);
@@ -102,8 +102,8 @@ public:
 } // namespace impl
 
 template<typename Container, typename Compare = std::less<void>>
-class flat_multimap 
-: public impl::flat_multimap_base<flat_multimap<Container, Compare>, 
+class flat_multimap
+: public impl::flat_multimap_base<flat_multimap<Container, Compare>,
     typename Container::value_type::first_type, Container, Compare>
 {
 #define FLATNAME flat_multimap
@@ -117,4 +117,4 @@ using vector_multimap
 
 } // namespace fc
 
-#endif 
+#endif

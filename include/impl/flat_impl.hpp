@@ -154,7 +154,7 @@ public:
 
     // Iterators
 
-    const_iterator cbegin() const 
+    const_iterator cbegin() const
     noexcept(noexcept(std::declval<D>().container.cbegin()))
         { return self()->container.cbegin(); }
     const_iterator begin() const
@@ -206,10 +206,10 @@ public:
 
     // Modifiers
 
-    iterator insert(const_iterator hint, value_type const& value)
+    iterator insert(const_iterator /*hint*/, value_type const& value)
         { return self()->insert(value).first; }
 
-    iterator insert(const_iterator hint, value_type&& value)
+    iterator insert(const_iterator /*hint*/, value_type&& value)
         { return self()->insert(std::move(value)).first; }
 
     template<class InputIt>
@@ -230,7 +230,7 @@ public:
         { return self()->insert(value_type(std::forward<Args>(args)...)); }
 
     template<typename... Args>
-    auto emplace_hint(const_iterator hint, Args&&... args)
+    auto emplace_hint(const_iterator /*hint*/, Args&&... args)
         { return self()->insert(value_type(std::forward<Args>(args)...)); }
 
     iterator erase(const_iterator pos)
@@ -238,7 +238,7 @@ public:
         { return self()->container.erase(pos.underlying); }
 
     iterator erase(const_iterator first, const_iterator last)
-    noexcept(noexcept(std::declval<D>().container.erase(first.underlying, 
+    noexcept(noexcept(std::declval<D>().container.erase(first.underlying,
                                                         last.underlying)))
         { return self()->container.erase(first.underlying, last.underlying); }
 
@@ -334,7 +334,7 @@ protected:
             self()->container.end(),
             self()->value_comp());
         std::inplace_merge(
-            self()->container.begin(), 
+            self()->container.begin(),
             self()->container.begin()+i,
             self()->container.end());
         // Note: Not calling unique here. Do it in the caller.
@@ -344,7 +344,7 @@ protected:
 template<typename D, typename Key,
          typename Container, typename Compare>
 class flat_container_base<D, Key, Container, Compare,
-                          std::void_t<typename Compare::is_transparent>>
+                          std::__void_t<typename Compare::is_transparent>>
 : public flat_container_base<D, Key, Container, Compare, int>
 {
 #include "container_traits.hpp"
@@ -362,7 +362,7 @@ public:
     // Modifiers
 
     template<class P>
-    iterator insert(const_iterator hint, P&& value)
+    iterator insert(const_iterator /*hint*/, P&& value)
         { return insert(std::forward<P>(value)).first; }
 
     // Lookup

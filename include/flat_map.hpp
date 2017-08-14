@@ -76,7 +76,7 @@ public:
     {
         this->ds_insert_(first, last);
         auto it = std::unique(
-            self()->container.begin(), self()->container.end(), 
+            self()->container.begin(), self()->container.end(),
             impl::eq_comp<value_compare>{value_comp()});
         self()->container.erase(it, self()->container.end());
     }
@@ -90,12 +90,12 @@ public:
         { return insert_or_assign_(std::move(key), std::forward<M>(obj)); }
 
     template<typename M>
-    std::pair<iterator, bool> insert_or_assign(const_iterator hint,
+    std::pair<iterator, bool> insert_or_assign(const_iterator /*hint*/,
                                                key_type const& key, M&& obj)
         { return insert_or_assign(key, std::forward<M>(obj)); }
 
     template<typename M>
-    std::pair<iterator, bool> insert_or_assign(const_iterator hint,
+    std::pair<iterator, bool> insert_or_assign(const_iterator /*hint*/,
                                                key_type&& key, M&& obj)
         { return insert_or_assign(std::move(key), std::forward<M>(obj)); }
 
@@ -108,14 +108,14 @@ public:
         { return try_emplace_(std::move(key), std::forward<Args>(args)...); }
 
     template<typename... Args>
-    iterator try_emplace(const_iterator hint,
+    iterator try_emplace(const_iterator /*hint*/,
                          key_type const& key, Args&&... args)
         { return try_emplace_(key, std::forward<Args>(args)...).first; }
 
     template<typename... Args>
-    iterator try_emplace(const_iterator hint, key_type&& key, Args&&... args)
-    { 
-        return try_emplace_(std::move(key), 
+    iterator try_emplace(const_iterator /*hint*/, key_type&& key, Args&&... args)
+    {
+        return try_emplace_(std::move(key),
                             std::forward<Args>(args)...).first;
     }
 
@@ -142,7 +142,7 @@ private:
         iterator it = self()->lower_bound(value.first);
         if(it == self()->end() || self()->value_comp()(value, *it))
         {
-            it = self()->container.insert(it.underlying, 
+            it = self()->container.insert(it.underlying,
                                           std::forward<V>(value));
             return std::make_pair(it, true);
         }
@@ -169,7 +169,7 @@ private:
         iterator it = self()->lower_bound(key);
         if(it == self()->end() || self()->key_comp()(key, it->first))
         {
-            it = self()->container.emplace(it.underlying, 
+            it = self()->container.emplace(it.underlying,
                 value_type(std::piecewise_construct,
                     std::forward_as_tuple(std::forward<K>(key)),
                     std::forward_as_tuple(std::forward<Args>(args)...)));
@@ -181,7 +181,7 @@ private:
 
 template<typename D, typename Key, typename Container, typename Compare>
 class flat_map_base<D, Key, Container, Compare,
-                    std::void_t<typename Compare::is_transparent>>
+                    std::__void_t<typename Compare::is_transparent>>
 : public flat_map_base<D, Key, Container, Compare, int>
 {
 #include "impl/container_traits.hpp"
@@ -195,7 +195,7 @@ public:
     using B::count;
 
     // Modifiers
-    
+
     template<class P>
     std::pair<iterator, bool> insert(P&& value)
     {
@@ -211,7 +211,7 @@ public:
 
     // Lookup
 
-    template<typename K> 
+    template<typename K>
     size_type count(K const& key) const
     {
         return self()->find(key) != self()->end();
@@ -221,8 +221,8 @@ public:
 } // namespace impl
 
 template<typename Container, typename Compare = std::less<void>>
-class flat_map 
-: public impl::flat_map_base<flat_map<Container, Compare>, 
+class flat_map
+: public impl::flat_map_base<flat_map<Container, Compare>,
     typename Container::value_type::first_type, Container, Compare>
 {
 #define FLATNAME flat_map

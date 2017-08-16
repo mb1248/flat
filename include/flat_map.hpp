@@ -180,8 +180,7 @@ private:
 };
 
 template<typename D, typename Key, typename Container, typename Compare>
-class flat_map_base<D, Key, Container, Compare,
-                    std::__void_t<typename Compare::is_transparent>>
+class flat_map_base<D, Key, Container, Compare>
 : public flat_map_base<D, Key, Container, Compare, int>
 {
 #include "impl/container_traits.hpp"

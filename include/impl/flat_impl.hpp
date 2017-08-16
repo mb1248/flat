@@ -343,8 +343,7 @@ protected:
 
 template<typename D, typename Key,
          typename Container, typename Compare>
-class flat_container_base<D, Key, Container, Compare,
-                          std::__void_t<typename Compare::is_transparent>>
+class flat_container_base<D, Key, Container, Compare>
 : public flat_container_base<D, Key, Container, Compare, int>
 {
 #include "container_traits.hpp"

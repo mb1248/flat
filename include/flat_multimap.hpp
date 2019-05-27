@@ -109,11 +109,24 @@ class flat_multimap
 #define FLATNAME flat_multimap
 #define FLATKEY typename Container::value_type::first_type
 #include "impl/class_def.hpp"
+#undef FLATNAME
+#undef FLATKEY
 };
 
 template<typename Key, typename T, typename Compare = std::less<void>>
 using vector_multimap
     = flat_multimap<std::vector<std::pair<Key, T>>, Compare>;
+
+template<typename Container, typename Compare>
+inline bool operator==(const flat_multimap<Container, Compare>& lhs, const flat_multimap<Container, Compare>& rhs)
+{
+  return lhs.container == rhs.container;
+}
+template<typename Container, typename Compare>
+inline bool operator!=(const flat_multimap<Container, Compare>& lhs, const flat_multimap<Container, Compare>& rhs)
+{
+  return lhs.container != rhs.container;
+}
 
 } // namespace fc
 

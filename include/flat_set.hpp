@@ -105,10 +105,23 @@ class flat_set
 #define FLATNAME flat_set
 #define FLATKEY typename Container::value_type
 #include "impl/class_def.hpp"
+#undef FLATNAME
+#undef FLATKEY
 };
 
 template<typename T, typename Compare = std::less<void>>
 using vector_set = flat_set<std::vector<T>, Compare>;
+
+template<typename Container, typename Compare>
+inline bool operator==(const flat_set<Container, Compare>& lhs, const flat_set<Container, Compare>& rhs)
+{
+  return lhs.container == rhs.container;
+}
+template<typename Container, typename Compare>
+inline bool operator!=(const flat_set<Container, Compare>& lhs, const flat_set<Container, Compare>& rhs)
+{
+  return lhs.container != rhs.container;
+}
 
 } // namespace fc
 

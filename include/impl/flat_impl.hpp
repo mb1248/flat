@@ -86,9 +86,9 @@ public:
         { this->underlying -= d; return *this; }
 
     flat_iterator operator+(difference_type d) const
-        { flat_iterator it; return it += d; }
+        { return this->underlying + d; }
     flat_iterator operator-(difference_type d) const
-        { flat_iterator it; return it -= d; }
+        { return this->underlying - d; }
 
     difference_type operator-(flat_iterator const& o) const
         { return this->underlying - o.underlying; }
@@ -174,23 +174,23 @@ public:
     noexcept(noexcept(std::declval<D>().container.end()))
         { return self()->container.end(); }
 
-    const_iterator crbegin() const
+    const_reverse_iterator crbegin() const
     noexcept(noexcept(std::declval<D>().container.crbegin()))
         { return self()->container.crbegin(); }
-    const_iterator rbegin() const
+    const_reverse_iterator rbegin() const
     noexcept(noexcept(std::declval<D>().container.rbegin()))
         { return self()->container.rbegin(); }
-    iterator rbegin()
+    reverse_iterator rbegin()
     noexcept(noexcept(std::declval<D>().container.rbegin()))
         { return self()->container.rbegin(); }
 
-    const_iterator crend() const
+    const_reverse_iterator crend() const
     noexcept(noexcept(std::declval<D>().container.crend()))
         { return self()->container.crend(); }
-    const_iterator rend() const
+    const_reverse_iterator rend() const
     noexcept(noexcept(std::declval<D>().container.rend()))
         { return self()->container.rend(); }
-    iterator rend()
+    reverse_iterator rend()
     noexcept(noexcept(std::declval<D>().container.rend()))
         { return self()->container.rend(); }
 
